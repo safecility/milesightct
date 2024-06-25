@@ -1,0 +1,10 @@
+{
+  "projectName": "safecility-test",
+  "topics": {
+    "milesight": "local-milesight"
+  },
+  "subscriptions": {
+    "milesight": "local-milesight-store-sub"
+  },
+  "storeAll": true
+}

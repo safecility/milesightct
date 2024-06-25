@@ -1,0 +1,12 @@
+syntax = "proto3";
+package energy;
+option go_package = ".;protobuffer";
+
+message Milesight {
+  string   DeviceUID                    = 1;
+  string   Time                         = 2;
+  double   AccumulatedCurrent           = 3;
+  double   InstantaneousCurrent         = 4;
+  double   MaximumCurrent               = 5;
+  double   MinimumCurrent               = 6;
+}

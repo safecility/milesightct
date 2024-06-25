@@ -1,0 +1,22 @@
+{
+  "projectName": "safecility-test",
+  "pubsub": {
+    "topics": {
+      "milesight": "test-milesight",
+      "bigquery": "test-milesight-to-bigquery"
+    },
+    "subscriptions": {
+      "milesight": "test-milesight-bigquery-sub",
+      "bigquery": "test-milesight-to-bigquery-sub"
+    }
+  },
+  "bigQuery": {
+    "dataset": "energy",
+    "table": "test-milesight",
+    "schema": {
+      "name": "bigquery-milesight",
+      "filePath": "./protobuffer/milesight.proto"
+    }
+  },
+  "storeAll": false
+}
