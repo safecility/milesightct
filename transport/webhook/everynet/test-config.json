@@ -1,0 +1,11 @@
+{
+  "projectName": "safecility-test",
+  "applicationName": "milesight",
+  "topics": {
+    "uplinks": "test-milesight-uplinks"
+  },
+  "secret": {
+    "name": "jwt-key",
+    "version": 1
+  }
+}

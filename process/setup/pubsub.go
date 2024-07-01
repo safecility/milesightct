@@ -26,14 +26,14 @@ func main() {
 		log.Fatal().Err(err).Msg("could not setup pubsub")
 	}
 
-	eastronTopic := gpsClient.Topic(config.Topics.Milesight)
-	exists, err := eastronTopic.Exists(ctx)
+	milesightTopic := gpsClient.Topic(config.Topics.Milesight)
+	exists, err := milesightTopic.Exists(ctx)
 	if !exists {
-		eastronTopic, err = gpsClient.CreateTopic(ctx, config.Topics.Milesight)
+		milesightTopic, err = gpsClient.CreateTopic(ctx, config.Topics.Milesight)
 		if err != nil {
 			log.Fatal().Err(err).Msg("setup could not create topic")
 		}
-		log.Info().Str("topic", eastronTopic.String()).Msg("created topic")
+		log.Info().Str("topic", milesightTopic.String()).Msg("created topic")
 	}
 
 	uSubscription := gpsClient.Subscription(config.Subscriptions.Uplinks)

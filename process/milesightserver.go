@@ -73,7 +73,7 @@ func main() {
 		log.Fatal().Err(err).Msg("could not setup safecility device sql")
 	}
 
-	eagleServer := server.NewMilesiteServer(c, uplinksSubscription, milesightTopic, config.PipeAll)
+	eagleServer := server.NewMilesightServer(c, uplinksSubscription, milesightTopic, config.PipeAll)
 	eagleServer.Start()
 
 }

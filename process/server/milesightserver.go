@@ -13,23 +13,23 @@ import (
 	"os"
 )
 
-type MilesiteServer struct {
+type MilesightServer struct {
 	cache          store.DeviceStore
 	sub            *pubsub.Subscription
 	milesightTopic *pubsub.Topic
 	pipeAll        bool
 }
 
-func NewMilesiteServer(cache store.DeviceStore, sub *pubsub.Subscription, eagle *pubsub.Topic, pipeAll bool) MilesiteServer {
-	return MilesiteServer{sub: sub, cache: cache, milesightTopic: eagle, pipeAll: pipeAll}
+func NewMilesightServer(cache store.DeviceStore, sub *pubsub.Subscription, eagle *pubsub.Topic, pipeAll bool) MilesightServer {
+	return MilesightServer{sub: sub, cache: cache, milesightTopic: eagle, pipeAll: pipeAll}
 }
 
-func (es *MilesiteServer) Start() {
+func (es *MilesightServer) Start() {
 	go es.receive()
 	es.serverHttp()
 }
 
-func (es *MilesiteServer) receive() {
+func (es *MilesightServer) receive() {
 	log.Debug().Str("sub", es.sub.String()).Msg("listening for messages")
 	err := es.sub.Receive(context.Background(), func(ctx context.Context, message *pubsub.Message) {
 		sm := &stream.SimpleMessage{}
@@ -80,7 +80,7 @@ func (es *MilesiteServer) receive() {
 	}
 }
 
-func (es *MilesiteServer) serverHttp() {
+func (es *MilesightServer) serverHttp() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		_, err := fmt.Fprintf(w, "started")
 		if err != nil {
