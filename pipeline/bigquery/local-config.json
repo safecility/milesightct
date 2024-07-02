@@ -2,11 +2,11 @@
   "projectName": "safecility-test",
   "pubsub": {
     "topics": {
-      "milesight": "test-milesight",
+      "milesight": "local-milesight",
       "bigquery": "test-milesight-bigquery-store"
     },
     "subscriptions": {
-      "milesight": "test-milesight-bigquery-sub",
+      "milesight": "local-milesight-bigquery-test-sub",
       "bigquery": "test-milesight-bigquery-store-sub"
     }
   },

@@ -12,12 +12,22 @@ const (
 	OSDeploymentKey = "MILESIGHT_DEPLOYMENT"
 )
 
+type Sql struct {
+	Config setup.MySQLConfig `json:"config"`
+	Secret setup.Secret      `json:"secret"`
+}
+
+type Firestore struct {
+	Database *string `json:"database"`
+	Deadline int     `json:"deadline"`
+}
+
 type Config struct {
 	ProjectName string `json:"projectName"`
-	Sql         struct {
-		Config setup.MySQLConfig `json:"config"`
-		Secret setup.Secret      `json:"secret"`
-	} `json:"sql"`
+	Store       struct {
+		Sql       *Sql       `json:"sql"`
+		Firestore *Firestore `json:"firestore"`
+	}
 	Topics struct {
 		Uplinks   string `json:"uplinks"`
 		Milesight string `json:"milesight"`
