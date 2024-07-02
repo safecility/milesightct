@@ -2,15 +2,17 @@ package store
 
 import (
 	"database/sql"
+	"errors"
+	"fmt"
 	"github.com/rs/zerolog/log"
 	"github.com/safecility/go/lib"
 	"github.com/safecility/iot/devices/milesightct/process/messages"
 )
 
-// TODO adjust locationId when changed on local db
+// TODO: EXAMPLE query - adjust for local device storage
 const (
-	getDeviceStmt = `SELECT uid as DeviceUID, name as DeviceName, tag as DeviceTag, 
-       		groupUID, companyUID, parentUID, power_factor, line_voltage
+	getDeviceStmt = `SELECT uid as DeviceUID, name as DeviceName, tag as DeviceTag, type as DeviceType,
+       		companyID, locationID, power_factor, line_voltage
 		FROM device
 		JOIN safecility.power_device pd on device.id = pd.deviceId
 		WHERE type='power' AND device.uid = ?`
@@ -47,6 +49,10 @@ func (db DeviceSql) GetDevice(uid string) (*messages.PowerDevice, error) {
 	return serverDevice, nil
 }
 
+func (db DeviceSql) Close() error {
+	return db.sqlDB.Close()
+}
+
 type rowScanner interface {
 	Scan(dest ...interface{}) error
 }
@@ -56,31 +62,32 @@ func scanDevice(s rowScanner) (*messages.PowerDevice, error) {
 		name        sql.NullString
 		uid         sql.NullString
 		tag         sql.NullString
-		groupUID    sql.NullString
-		companyUID  sql.NullString
-		parentUID   sql.NullString
+		dType       sql.NullString
+		companyUID  sql.NullInt64
+		locationUID sql.NullInt64
 		powerFactor sql.NullFloat64
 		voltage     sql.NullFloat64
 	)
 
-	err := s.Scan(&name, &uid, &tag, &groupUID, &companyUID, &parentUID, &powerFactor, &voltage)
+	err := s.Scan(&name, &uid, &tag, &dType, &companyUID, &locationUID, &powerFactor, &voltage)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, sql.ErrNoRows) {
 			return nil, nil
 		}
 		return nil, err
 	}
 
 	deviceInfo := messages.PowerDevice{
-		Device: &lib.Device{
+		Device: lib.Device{
 			DeviceUID: uid.String,
 			DeviceMeta: &lib.DeviceMeta{
 				DeviceName: name.String,
 				DeviceTag:  tag.String,
-			},
-			Group: &lib.Group{
-				GroupUID:   groupUID.String,
-				CompanyUID: companyUID.String,
+				DeviceType: lib.DeviceType(dType.String),
+				Listing: &lib.Listing{
+					CompanyUID:  fmt.Sprintf("%d", companyUID.Int64),
+					LocationUID: fmt.Sprintf("%d", locationUID.Int64),
+				},
 			},
 		},
 		PowerFactor: powerFactor.Float64,

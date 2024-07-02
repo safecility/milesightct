@@ -40,6 +40,8 @@ func main() {
 		log.Fatal().Err(err).Msg("Failed to create BigQuery table")
 	}
 
+	log.Info().Msg("finished BigQuery setup")
+
 	sClient, err := pubsub.NewSchemaClient(ctx, config.ProjectName)
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not create schema client")
@@ -107,6 +109,8 @@ func main() {
 		if err != nil {
 			log.Fatal().Err(err).Msg("setup could not create subscription")
 		}
+		log.Info().Str("sub", config.Pubsub.Subscriptions.Milesight).Msg("created subscription")
 	}
 	log.Info().Msg("finished pubsub setup")
+
 }

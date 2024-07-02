@@ -2,7 +2,6 @@ package main
 
 import (
 	"cloud.google.com/go/pubsub"
-	secretmanager "cloud.google.com/go/secretmanager/apiv1"
 	"context"
 	"github.com/rs/zerolog/log"
 	"github.com/safecility/go/setup"
@@ -30,6 +29,12 @@ func main() {
 		log.Fatal().Err(err).Msg("Failed to create pubsub client")
 		return
 	}
+	defer func(gpsClient *pubsub.Client) {
+		err = gpsClient.Close()
+		if err != nil {
+			log.Error().Err(err).Msg("Failed to close pubsub client")
+		}
+	}(gpsClient)
 
 	uplinksSubscription := gpsClient.Subscription(config.Subscriptions.Uplinks)
 	exists, err := uplinksSubscription.Exists(ctx)
@@ -47,33 +52,15 @@ func main() {
 	}
 	defer milesightTopic.Stop()
 
-	secretsClient, err := secretmanager.NewClient(ctx)
-	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to create secrets client")
-	}
-	defer func(secretsClient *secretmanager.Client) {
-		err := secretsClient.Close()
+	ds := helpers.GetStore(config)
+	defer func(ds store.DeviceStore) {
+		err = ds.Close()
 		if err != nil {
-			log.Error().Err(err).Msg("Failed to close secrets client")
+			log.Error().Err(err).Msg("Failed to close store")
 		}
-	}(secretsClient)
-	sqlSecret := setup.GetNewSecrets(config.ProjectName, secretsClient)
-	password, err := sqlSecret.GetSecret(config.Sql.Secret)
-	if err != nil {
-		log.Fatal().Err(err).Msg("Failed to get secret")
-	}
-	config.Sql.Config.Password = string(password)
+	}(ds)
 
-	s, err := setup.NewSafecilitySql(config.Sql.Config)
-	if err != nil {
-		log.Fatal().Err(err).Msg("could not setup safecility sql")
-	}
-	c, err := store.NewDeviceSql(s)
-	if err != nil {
-		log.Fatal().Err(err).Msg("could not setup safecility device sql")
-	}
-
-	eagleServer := server.NewMilesightServer(c, uplinksSubscription, milesightTopic, config.PipeAll)
+	eagleServer := server.NewMilesiteServer(ds, uplinksSubscription, milesightTopic, config.PipeAll)
 	eagleServer.Start()
 
 }

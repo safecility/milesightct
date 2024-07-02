@@ -5,7 +5,7 @@ import (
 )
 
 type PowerDevice struct {
-	*lib.Device
+	lib.Device
 	PowerFactor float64 `datastore:",omitempty"`
 	Voltage     float64 `datastore:",omitempty"`
 }

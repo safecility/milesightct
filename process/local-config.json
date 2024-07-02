@@ -1,23 +1,29 @@
 {
   "projectName": "safecility-test",
-  "sql": {
-    "config": {
-      "user": "**user**",
-      "instanceConnectionName": "**instance connection**",
-      "port": 3306,
-      "database": "**db**"
+  "store": {
+    "firestore": {
+      "database": "static",
+      "deadline": 4
     },
-    "secret": {
-      "name": "**secret-name**",
-      "version": 1
+    "sql": {
+      "config": {
+        "user": "editor",
+        "host": "localhost",
+        "port": 3306,
+        "database": "safecility"
+      },
+      "secret": {
+        "name": "microservice-sql-password",
+        "version": 1
+      }
     }
   },
   "topics": {
-    "uplinks": "local-milesight-uplinks",
+    "uplinks": "test-milesight-uplinks",
     "milesight": "local-milesight"
   },
   "subscriptions": {
-    "uplinks": "local-milesight-uplinks-sub"
+    "uplinks": "test-milesight-uplinks-local-sub"
   },
   "pipeAll": true
 }

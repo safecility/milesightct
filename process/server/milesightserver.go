@@ -11,6 +11,7 @@ import (
 	"github.com/safecility/iot/devices/milesightct/process/store"
 	"net/http"
 	"os"
+	"strings"
 )
 
 type MilesightServer struct {
@@ -35,7 +36,7 @@ func (es *MilesightServer) receive() {
 		sm := &stream.SimpleMessage{}
 		log.Debug().Str("data", fmt.Sprintf("%s", message.Data)).Msg("raw data")
 		err := json.Unmarshal(message.Data, sm)
-		message.Ack()
+		//message.Ack()
 		if err != nil {
 			log.Err(err).Msg("could not unmarshall data")
 			return
@@ -47,10 +48,12 @@ func (es *MilesightServer) receive() {
 			return
 		}
 
+		deviceUID := strings.Replace(sm.DeviceUID, "/", ":", 1)
+
 		log.Debug().Str("messageID", sm.DeviceUID).Msg("milesight ct message")
 		var pd *messages.PowerDevice
 		if es.cache != nil {
-			pd, err = es.cache.GetDevice(sm.DeviceUID)
+			pd, err = es.cache.GetDevice(deviceUID)
 			if err != nil {
 				log.Warn().Err(err).Str("uid", sm.DeviceUID).Msg("could not get device")
 			}
@@ -59,6 +62,7 @@ func (es *MilesightServer) receive() {
 			}
 			mr.PowerDevice = pd
 		}
+		message.Ack()
 		if mr.PowerDevice == nil && !es.pipeAll {
 			log.Debug().Str("device", sm.DeviceUID).Msg("no device in cache and pipeAll == false")
 			return
