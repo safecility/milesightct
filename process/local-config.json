@@ -2,13 +2,13 @@
   "projectName": "safecility-test",
   "sql": {
     "config": {
-      "user": "editor",
-      "host": "localhost",
+      "user": "**user**",
+      "instanceConnectionName": "**instance connection**",
       "port": 3306,
-      "database": "safecility"
+      "database": "**db**"
     },
     "secret": {
-      "name": "microservice-sql-password",
+      "name": "**secret-name**",
       "version": 1
     }
   },
