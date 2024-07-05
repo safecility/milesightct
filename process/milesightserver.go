@@ -60,7 +60,7 @@ func main() {
 		}
 	}(ds)
 
-	eagleServer := server.NewMilesiteServer(ds, uplinksSubscription, milesightTopic, config.PipeAll)
-	eagleServer.Start()
+	milesightServer := server.NewMilesightServer(ds, uplinksSubscription, milesightTopic, config.PipeAll)
+	milesightServer.Start()
 
 }

@@ -19,14 +19,39 @@ type Sql struct {
 
 type Firestore struct {
 	Database *string `json:"database"`
-	Deadline int     `json:"deadline"`
+}
+
+type Rest struct {
+	Host string  `json:"host"`
+	Port *string `json:"port"`
+}
+
+func (r Rest) Address() string {
+	if r.Port != nil {
+		return fmt.Sprintf("%s:%d", r.Host, r.Port)
+	}
+	return r.Host
+}
+
+type Redis struct {
+	Host   string        `json:"host"`
+	Port   int           `json:"port"`
+	Secret *setup.Secret `json:"secret"`
+	Key    string        `json:"-"`
+}
+
+func (r Redis) Address() string {
+	return fmt.Sprintf("%s:%d", r.Host, r.Port)
 }
 
 type Config struct {
-	ProjectName string `json:"projectName"`
-	Store       struct {
+	ProjectName     string `json:"projectName"`
+	ContextDeadline int    `json:"contextDeadline"`
+	Store           struct {
 		Sql       *Sql       `json:"sql"`
 		Firestore *Firestore `json:"firestore"`
+		Cache     *Redis     `json:"cache"`
+		Rest      *Rest      `json:"rest"`
 	}
 	Topics struct {
 		Uplinks   string `json:"uplinks"`

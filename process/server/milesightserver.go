@@ -21,7 +21,7 @@ type MilesiteServer struct {
 	pipeAll        bool
 }
 
-func NewMilesiteServer(cache store.DeviceStore, sub *pubsub.Subscription, eagle *pubsub.Topic, pipeAll bool) MilesiteServer {
+func NewMilesightServer(cache store.DeviceStore, sub *pubsub.Subscription, eagle *pubsub.Topic, pipeAll bool) MilesiteServer {
 	return MilesiteServer{sub: sub, cache: cache, milesightTopic: eagle, pipeAll: pipeAll}
 }
 
