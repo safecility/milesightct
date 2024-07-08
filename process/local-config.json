@@ -12,18 +12,6 @@
     },
     "firestore": {
       "database": "static"
-    },
-    "sql": {
-      "config": {
-        "user": "editor",
-        "host": "localhost",
-        "port": 3306,
-        "database": "safecility"
-      },
-      "secret": {
-        "name": "microservice-sql-password",
-        "version": 1
-      }
     }
   },
   "topics": {
