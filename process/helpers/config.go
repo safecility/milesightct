@@ -12,21 +12,39 @@ const (
 	OSDeploymentKey = "MILESIGHT_DEPLOYMENT"
 )
 
-type Sql struct {
-	Config setup.MySQLConfig `json:"config"`
-	Secret setup.Secret      `json:"secret"`
-}
-
 type Firestore struct {
 	Database *string `json:"database"`
-	Deadline int     `json:"deadline"`
+}
+
+type Rest struct {
+	Host string  `json:"host"`
+	Port *string `json:"port"`
+}
+
+func (r Rest) Address() string {
+	if r.Port != nil {
+		return fmt.Sprintf("%s:%d", r.Host, r.Port)
+	}
+	return r.Host
+}
+
+type Redis struct {
+	Host   string        `json:"host"`
+	Port   int           `json:"port"`
+	Secret *setup.Secret `json:"secret"`
+	Key    string        `json:"-"`
+}
+
+func (r Redis) Address() string {
+	return fmt.Sprintf("%s:%d", r.Host, r.Port)
 }
 
 type Config struct {
-	ProjectName string `json:"projectName"`
-	Store       struct {
-		Sql       *Sql       `json:"sql"`
+	ProjectName     string `json:"projectName"`
+	ContextDeadline int    `json:"contextDeadline"`
+	Store           struct {
 		Firestore *Firestore `json:"firestore"`
+		Rest      *Rest      `json:"rest"`
 	}
 	Topics struct {
 		Uplinks   string `json:"uplinks"`

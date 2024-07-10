@@ -1,21 +1,17 @@
 {
   "projectName": "safecility-test",
+  "contextDeadline": 4,
   "store": {
-    "firestore": {
-      "database": "static",
-      "deadline": 4
-    },
-    "sql": {
-      "config": {
-        "user": "editor",
-        "host": "localhost",
-        "port": 3306,
-        "database": "safecility"
-      },
+    "cache": {
+      "host": "redis-18151.c78.eu-west-1-2.ec2.cloud.redislabs.com",
+      "port": 18151,
       "secret": {
-        "name": "microservice-sql-password",
+        "name": "test-redis",
         "version": 1
       }
+    },
+    "firestore": {
+      "database": "static"
     }
   },
   "topics": {

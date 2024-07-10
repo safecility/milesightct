@@ -7,10 +7,11 @@ toolchain go1.21.4
 require (
 	cloud.google.com/go/firestore v1.15.0
 	cloud.google.com/go/pubsub v1.40.0
-	cloud.google.com/go/secretmanager v1.13.3
+	github.com/go-resty/resty/v2 v2.13.1
+	github.com/redis/go-redis/v9 v9.5.3
 	github.com/rs/zerolog v1.33.0
-	github.com/safecility/go/lib v0.0.0-20240702130827-da782fd1232a
-	github.com/safecility/go/setup v0.0.0-20240702130827-da782fd1232a
+	github.com/safecility/go/lib v0.0.0-20240704140146-c67db90ffdf8
+	github.com/safecility/go/setup v0.0.0-20240704140146-c67db90ffdf8
 )
 
 require (
@@ -20,6 +21,7 @@ require (
 	cloud.google.com/go/compute/metadata v0.3.0 // indirect
 	cloud.google.com/go/iam v1.1.8 // indirect
 	cloud.google.com/go/longrunning v0.5.7 // indirect
+	cloud.google.com/go/secretmanager v1.13.1 // indirect
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
@@ -36,7 +38,6 @@ require (
 	github.com/googleapis/gax-go/v2 v2.12.5 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.19 // indirect
-	github.com/redis/go-redis/v9 v9.5.3 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.49.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.49.0 // indirect

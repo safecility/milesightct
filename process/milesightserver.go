@@ -52,7 +52,10 @@ func main() {
 	}
 	defer milesightTopic.Stop()
 
-	ds := helpers.GetStore(config)
+	ds, err := helpers.GetStore(config)
+	if err != nil {
+		log.Fatal().Err(err).Msg("could not get store")
+	}
 	defer func(ds store.DeviceStore) {
 		err = ds.Close()
 		if err != nil {
@@ -60,7 +63,7 @@ func main() {
 		}
 	}(ds)
 
-	eagleServer := server.NewMilesiteServer(ds, uplinksSubscription, milesightTopic, config.PipeAll)
-	eagleServer.Start()
+	milesightServer := server.NewMilesightServer(ds, uplinksSubscription, milesightTopic, config.PipeAll)
+	milesightServer.Start()
 
 }
