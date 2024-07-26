@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/go-resty/resty/v2"
 	"github.com/safecility/iot/devices/milesightct/process/messages"
+	"net/url"
 )
 
 type DeviceClient struct {
@@ -23,6 +24,8 @@ func CreateDeviceClient(serverAddress string) *DeviceClient {
 }
 
 func (dc *DeviceClient) GetDevice(uid string) (*messages.PowerDevice, error) {
+	uid = url.PathEscape(uid)
+
 	resp, err := dc.client.R().
 		SetHeader("Accept", "application/json").
 		Get(fmt.Sprintf("%s/device/%s", dc.server, uid))

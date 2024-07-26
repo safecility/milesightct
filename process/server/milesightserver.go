@@ -36,7 +36,7 @@ func (es *MilesightServer) receive() {
 		sm := &stream.SimpleMessage{}
 		log.Debug().Str("data", fmt.Sprintf("%s", message.Data)).Msg("raw data")
 		err := json.Unmarshal(message.Data, sm)
-		//message.Ack()
+		message.Ack()
 		if err != nil {
 			log.Err(err).Msg("could not unmarshall data")
 			return
@@ -62,7 +62,7 @@ func (es *MilesightServer) receive() {
 			}
 			mr.PowerDevice = pd
 		}
-		message.Ack()
+
 		if mr.PowerDevice == nil && !es.pipeAll {
 			log.Debug().Str("device", sm.DeviceUID).Msg("no device in cache and pipeAll == false")
 			return

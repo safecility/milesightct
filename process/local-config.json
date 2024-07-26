@@ -2,14 +2,6 @@
   "projectName": "safecility-test",
   "contextDeadline": 4,
   "store": {
-    "cache": {
-      "host": "redis-18151.c78.eu-west-1-2.ec2.cloud.redislabs.com",
-      "port": 18151,
-      "secret": {
-        "name": "test-redis",
-        "version": 1
-      }
-    },
     "firestore": {
       "database": "static"
     }
