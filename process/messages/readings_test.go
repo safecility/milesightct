@@ -31,7 +31,7 @@ func TestReadMilesiteCT(t *testing.T) {
 		want    *MilesightCTReading
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		// TODO: Add more/better test cases.
 		{
 			name: "read all",
 			args: args{
@@ -46,7 +46,7 @@ func TestReadMilesiteCT(t *testing.T) {
 			want: &MilesightCTReading{
 				UID:   "6746d38802580000",
 				Power: true,
-				Version: Version{
+				Version: &Version{
 					Ipso:     "0.1",
 					Hardware: "1.0",
 					Firmware: "1.1",
@@ -66,56 +66,30 @@ func TestReadMilesiteCT(t *testing.T) {
 			},
 		},
 		{
-			name: "read all",
+			name: "read all b",
 			args: args{
 				payload: whData,
 			},
 			want: &MilesightCTReading{
-				UID:   "6746d38802580000",
-				Power: true,
-				Version: Version{
-					Ipso:     "0.1",
-					Hardware: "1.0",
-					Firmware: "1.1",
-				},
+				UID: "",
 				Current: Current{
-					Total: 100,
-					Value: 25,
-					Max:   30,
-					Min:   20,
-					Alarms: Alarms{
-						t:  true,
-						tr: false,
-						r:  true,
-						rr: false,
-					},
+					Total:  59.41,
+					Value:  2.14,
+					Max:    0,
+					Min:    0,
+					Alarms: Alarms{},
 				},
 			},
 		},
 		{
-			name: "read all",
+			name: "read all c",
 			args: args{
 				payload: ttnData,
 			},
 			want: &MilesightCTReading{
-				UID:   "6746d38802580000",
-				Power: true,
-				Version: Version{
-					Ipso:     "0.1",
-					Hardware: "1.0",
-					Firmware: "1.1",
-				},
 				Current: Current{
-					Total: 100,
-					Value: 25,
-					Max:   30,
-					Min:   20,
-					Alarms: Alarms{
-						t:  true,
-						tr: false,
-						r:  true,
-						rr: false,
-					},
+					Total: 2.69,
+					Value: 1.69,
 				},
 			},
 		},
@@ -203,6 +177,25 @@ func Test_readSlice(t *testing.T) {
 				offset:  0,
 			},
 			want: 3,
+		},
+		{
+			name: "ipso-offset",
+			args: args{
+				r:       &MilesightCTReading{},
+				payload: []byte{0xFF, 0x0B, 0xFF, 0xFF, 0x01, 0x01},
+				offset:  3,
+			},
+			want: 3,
+		},
+		{
+			name: "ipso-fail",
+			args: args{
+				r:       &MilesightCTReading{},
+				payload: []byte{0xFF, 0x0B, 0xFF, 0xFF, 0x01},
+				offset:  3,
+			},
+			want:    0,
+			wantErr: true,
 		},
 		{
 			name: "serial",

@@ -20,11 +20,11 @@ const (
 )
 
 type MilesightCTReading struct {
-	*PowerDevice
-	UID   string
-	Power bool
-	Time  time.Time
-	Version
+	*PowerDevice `datastore:",omitempty"`
+	UID          string
+	Power        bool
+	Time         time.Time
+	*Version     `datastore:",omitempty"`
 	Current
 }
 
@@ -79,18 +79,30 @@ func readSlice(r *MilesightCTReading, payload []byte, offset int) (int, error) {
 			r.Power = true
 			return 3, nil
 		case ipso:
+			//only setup Version if needed
+			if r.Version == nil {
+				r.Version = &Version{}
+			}
 			if available < 3 {
 				return 0, fmt.Errorf("payload too small")
 			}
 			r.Version.Ipso = readVersion(payload[offset+2])
 			return 3, nil
 		case hardware:
+			//only setup Version if needed
+			if r.Version == nil {
+				r.Version = &Version{}
+			}
 			if available < 3 {
 				return 0, fmt.Errorf("payload too small")
 			}
 			r.Version.Hardware = readVersionLong(payload[offset+2:])
 			return 4, nil
 		case firmware:
+			//only setup Version if needed
+			if r.Version == nil {
+				r.Version = &Version{}
+			}
 			if available < 4 {
 				return 0, fmt.Errorf("payload too small")
 			}
