@@ -1,0 +1,12 @@
+{
+  "projectName": "safecility-test",
+  "applicationName": "milesite",
+  "expires": 240,
+  "topics": {
+    "uplinks": "local-milesight-uplinks"
+  },
+  "secret": {
+    "name": "jwt-key",
+    "version": 1
+  }
+}

@@ -11,7 +11,7 @@ type DatastoreMilesight struct {
 	client *datastore.Client
 }
 
-func NewDatastoreMilesite(client *datastore.Client) (*DatastoreMilesight, error) {
+func NewDatastoreMilesight(client *datastore.Client) (*DatastoreMilesight, error) {
 	rd := &DatastoreMilesight{client: client}
 	return rd, nil
 }

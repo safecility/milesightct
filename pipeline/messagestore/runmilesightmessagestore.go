@@ -48,7 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not start service")
 	}
-	d, err := store.NewDatastoreMilesite(dsClient)
+	d, err := store.NewDatastoreMilesight(dsClient)
 
 	if err != nil {
 		log.Fatal().Err(err).Msg("could not get datastore milesight")
