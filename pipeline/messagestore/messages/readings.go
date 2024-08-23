@@ -13,8 +13,8 @@ type Structure struct {
 }
 
 type PowerProfile struct {
-	PowerFactor float64 `datastore:",omitempty" firestore:",omitempty"`
-	Voltage     float64 `datastore:",omitempty" firestore:",omitempty"`
+	PowerFactor float64 `datastore:",omitempty" json:"powerFactor"`
+	Voltage     float64 `datastore:",omitempty" json:"voltage"`
 }
 
 type PowerDevice struct {
