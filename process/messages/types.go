@@ -4,8 +4,12 @@ import (
 	"github.com/safecility/go/lib"
 )
 
+type PowerProfile struct {
+	PowerFactor float64 `datastore:"-" firestore:",omitempty"`
+	Voltage     float64 `datastore:"-" firestore:",omitempty"`
+}
+
 type PowerDevice struct {
 	lib.Device
-	PowerFactor float64 `datastore:",omitempty"`
-	Voltage     float64 `datastore:",omitempty"`
+	Profile *PowerProfile `datastore:"-" firestore:",omitempty"`
 }

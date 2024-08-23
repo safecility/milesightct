@@ -5,10 +5,22 @@ import (
 	"time"
 )
 
+type UUID string
+
+type Structure struct {
+	SystemUID string `datastore:",omitempty"`
+	TenantUID string `datastore:",omitempty"`
+}
+
+type PowerProfile struct {
+	PowerFactor float64 `datastore:",omitempty" firestore:",omitempty"`
+	Voltage     float64 `datastore:",omitempty" firestore:",omitempty"`
+}
+
 type PowerDevice struct {
-	*lib.Device
-	PowerFactor float64 `datastore:",omitempty"`
-	Voltage     float64 `datastore:",omitempty"`
+	lib.Device
+	Structure *Structure    `datastore:",flatten"`
+	Profile   *PowerProfile `datastore:",flatten"`
 }
 
 type MilesightCTReading struct {
