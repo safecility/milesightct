@@ -1,0 +1,20 @@
+{
+  "projectName": "safecility-test",
+  "mqtt": {
+    "appID": "ct-10x-milesight",
+    "username": "ct-10x-milesight@ttn",
+    "address": "ssl://eu1.cloud.thethings.network:8883",
+    "downlink": false,
+    "location": false,
+    "signal": false
+  },
+  "secret": {
+    "name": "ttn-milesight",
+    "version": 1
+  },
+  "topics": {
+    "joins": "test-ttn-milesight-joins",
+    "uplinks": "test-ttn-milesight-uplinks",
+    "signal": "test-ttn-milesight-signal"
+  }
+}
