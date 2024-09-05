@@ -7,10 +7,14 @@ import (
 	"time"
 )
 
+type PowerProfile struct {
+	PowerFactor float64 `datastore:"-" firestore:"powerFactor,omitempty" json:"powerFactor,omitempty"`
+	Voltage     float64 `datastore:"-" firestore:"voltage,omitempty" json:"voltage,omitempty"`
+}
+
 type PowerDevice struct {
-	*lib.Device
-	PowerFactor float64 `datastore:",omitempty"`
-	Voltage     float64 `datastore:",omitempty"`
+	lib.Device
+	Profile *PowerProfile `datastore:"-" firestore:"profile,omitempty" json:"profile,omitempty"`
 }
 
 type MilesightCTReading struct {
@@ -35,18 +39,18 @@ func (mc MilesightCTReading) Usage() (*MeterReading, error) {
 	if mc.Current.Total == 0 {
 		log.Info().Str("reading", fmt.Sprintf("%+v", mc)).Msg("zero usage - check device is new")
 	}
-	kWh := float64(mc.Current.Total) * mc.Voltage * mc.PowerFactor / 1000.0
+	kWh := float64(mc.Current.Total) * mc.Profile.Voltage * mc.Profile.PowerFactor / 1000.0
 	mr := &MeterReading{
 		ReadingKWH: kWh,
 		Time:       mc.Time,
 	}
-	if mc.PowerDevice.Device == nil {
+	if mc.PowerDevice == nil {
 		log.Warn().Str("UID", mc.UID).Msg("device does not have device definitions")
 		mr.Device = &lib.Device{
 			DeviceUID: mc.UID,
 		}
 	} else {
-		mr.Device = mc.Device
+		mr.Device = &mc.Device
 	}
 
 	return mr, nil

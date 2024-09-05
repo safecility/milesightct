@@ -45,7 +45,7 @@ func main() {
 	milesightTopic := gpsClient.Topic(config.Topics.Milesight)
 	exists, err = milesightTopic.Exists(ctx)
 	if !exists {
-		log.Fatal().Str("topic", config.Topics.Milesight).Msg("no hotdrop topic")
+		log.Fatal().Str("topic", config.Topics.Milesight).Msg("no milesight topic")
 	}
 	if err != nil {
 		log.Fatal().Err(err).Str("topic", config.Topics.Milesight).Msg("could not get topic")

@@ -7,11 +7,11 @@
     }
   },
   "topics": {
-    "uplinks": "test-milesight-uplinks",
+    "uplinks": "local-ttn-milesight-uplinks",
     "milesight": "local-milesight"
   },
   "subscriptions": {
-    "uplinks": "test-milesight-uplinks-local-sub"
+    "uplinks": "local-ttn-milesight-uplinks-sub"
   },
   "pipeAll": true
 }

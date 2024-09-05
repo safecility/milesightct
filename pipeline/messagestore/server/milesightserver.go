@@ -48,7 +48,7 @@ func (es *MilesightServer) receive() {
 		go func() {
 			crr := es.store.AddMilesightMessage(r)
 			if crr != nil {
-				log.Err(crr).Msg("could not add hotdrop data")
+				log.Err(crr).Msg("could not add milesight data")
 			}
 		}()
 	})

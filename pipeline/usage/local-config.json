@@ -7,5 +7,5 @@
   "subscriptions": {
     "milesight": "local-milesight-usage-sub"
   },
-  "storeAll": false
+  "pipeAll": false
 }

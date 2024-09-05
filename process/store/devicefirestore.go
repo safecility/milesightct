@@ -3,6 +3,7 @@ package store
 import (
 	"cloud.google.com/go/firestore"
 	"context"
+	"github.com/safecility/go/lib"
 	"github.com/safecility/iot/devices/milesightct/process/messages"
 	"time"
 )
@@ -25,10 +26,10 @@ func (df DeviceFirestore) GetDevice(uid string) (*messages.PowerDevice, error) {
 		return nil, err
 	}
 	d := &messages.PowerDevice{
-		Device: messages.Device{
-			DeviceMeta: &messages.DeviceMeta{
-				Version:    &messages.Firmware{},
-				Processors: &messages.Processor{},
+		Device: lib.Device{
+			DeviceMeta: &lib.DeviceMeta{
+				Firmware:   &lib.Firmware{},
+				Processors: &lib.Processor{},
 			},
 		},
 	}

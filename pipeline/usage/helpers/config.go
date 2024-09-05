@@ -20,7 +20,7 @@ type Config struct {
 	Subscriptions struct {
 		Milesight string `json:"milesight"`
 	} `json:"subscriptions"`
-	StoreAll bool `json:"storeAll"`
+	PipeAll bool `json:"pipeAll"`
 }
 
 // GetConfig creates a config for the specified deployment

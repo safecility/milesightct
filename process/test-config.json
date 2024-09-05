@@ -1,16 +1,17 @@
 {
   "projectName": "safecility-test",
+  "contextDeadline": 4,
   "store": {
-    "rest": {
-      "host": "https://store-device-xsy3dvec6a-ew.a.run.app"
+    "firestore": {
+      "database": "static"
     }
   },
   "topics": {
-    "uplinks": "test-milesight-uplinks",
+    "uplinks": "test-ttn-milesight-uplinks",
     "milesight": "test-milesight"
   },
   "subscriptions": {
-    "uplinks": "test-milesight-uplinks-sub"
+    "uplinks": "test-ttn-milesight-uplinks-sub"
   },
   "pipeAll": true
 }

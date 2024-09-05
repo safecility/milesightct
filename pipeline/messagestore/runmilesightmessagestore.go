@@ -41,7 +41,7 @@ func main() {
 	milesightSubscription := gpsClient.Subscription(config.Subscriptions.Milesight)
 	exists, err := milesightSubscription.Exists(ctx)
 	if !exists {
-		log.Fatal().Str("subscription", config.Subscriptions.Milesight).Msg("no eastron subscription")
+		log.Fatal().Str("subscription", config.Subscriptions.Milesight).Msg("no milesight subscription")
 	}
 
 	dsClient, err := datastore.NewClient(ctx, config.ProjectName)

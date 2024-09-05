@@ -35,7 +35,8 @@ func main() {
 
 	bqc := gbigquery.NewBQTable(client)
 
-	t, err := bqc.CheckOrCreateBigqueryTable(&config.BigQuery)
+	md := getTableMetadata(config.BigQuery.Table)
+	t, err := bqc.CheckOrCreateBigqueryTable(&config.BigQuery, md)
 	if err != nil {
 		log.Fatal().Err(err).Msg("Failed to create BigQuery table")
 	}
@@ -113,4 +114,30 @@ func main() {
 	}
 	log.Info().Msg("finished pubsub setup")
 
+}
+
+// This seems poor on google's part - We're creating the topic with protobuf but this schema doesn't really match
+// protobuf.
+// The required field causes confusion with protobuf 3
+// current proto
+// string   DeviceUID                    = 1;
+// string   Time                         = 2;
+// double   AccumulatedCurrent           = 3;
+// double   InstantaneousCurrent         = 4;
+// double   MaximumCurrent               = 5;
+// double   MinimumCurrent               = 6;
+func getTableMetadata(name string) *bigquery.TableMetadata {
+	tableSchema := bigquery.Schema{
+		{Name: "DeviceUID", Type: bigquery.StringFieldType},
+		{Name: "Time", Type: bigquery.TimestampFieldType},
+		{Name: "AccumulatedCurrent", Type: bigquery.FloatFieldType},
+		{Name: "InstantaneousCurrent", Type: bigquery.FloatFieldType},
+		{Name: "MaximumCurrent", Type: bigquery.FloatFieldType},
+		{Name: "MinimumCurrent", Type: bigquery.FloatFieldType},
+	}
+
+	return &bigquery.TableMetadata{
+		Name:   name,
+		Schema: tableSchema,
+	}
 }

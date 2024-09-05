@@ -3,20 +3,23 @@ package messages
 import (
 	"encoding/binary"
 	"fmt"
+	"github.com/rs/zerolog/log"
 	"math"
 	"time"
 )
 
 const (
-	metaChannel    byte = 0xff
-	totalChannel   byte = 0x03
-	currentChannel byte = 0x04
-	alarmChannel   byte = 0x84
-	power          byte = 0x0b
-	ipso           byte = 0x01
-	serial         byte = 0x16
-	hardware       byte = 0x09
-	firmware       byte = 0x0a
+	metaChannel        byte = 0xff
+	totalChannel       byte = 0x03
+	currentChannel     byte = 0x04
+	alarmChannel       byte = 0x84
+	temperatureChannel byte = 0x09
+	power              byte = 0x0b
+	ipso               byte = 0x01
+	serial             byte = 0x16
+	hardware           byte = 0x09
+	firmware           byte = 0x0a
+	temperature        byte = 0x67
 )
 
 type MilesightCTReading struct {
@@ -25,6 +28,7 @@ type MilesightCTReading struct {
 	Power        bool
 	Time         time.Time
 	*Version     `datastore:",omitempty"`
+	Temperature  uint16
 	Current
 }
 
@@ -73,6 +77,13 @@ func readSlice(r *MilesightCTReading, payload []byte, offset int) (int, error) {
 	channelID := payload[offset]
 	channelType := payload[offset+1]
 	switch channelID {
+	case temperatureChannel:
+		if channelType != 103 {
+			log.Warn().Msg("Temperature channel should have temperature channel type")
+		}
+		t := binary.LittleEndian.Uint16(payload[offset+2 : offset+4])
+		r.Temperature = t
+		return 4, nil
 	case metaChannel:
 		switch channelType {
 		case power:
