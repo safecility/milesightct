@@ -114,6 +114,13 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/uptime", func(w http.ResponseWriter, r *http.Request) {
+		_, err := fmt.Fprintf(w, "running")
+		if err != nil {
+			log.Err(err).Msg(fmt.Sprintf("could write to http.ResponseWriter"))
+		}
+	})
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8093"

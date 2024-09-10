@@ -16,6 +16,9 @@
 
 # Dependency directories (remove the comment below to include it)
 **/vendor/
+# Don't add any directories marked as tmp or local
+**/tmp/
+**/local/
 
 # Go workspace file
 go.work
@@ -24,3 +27,7 @@ go.work.sum
 .idea/
 
 **/mocks
+
+*prod.bat
+*prod-config.json
+

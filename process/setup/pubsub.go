@@ -13,9 +13,16 @@ import (
 
 func main() {
 
-	deployment, isSet := os.LookupEnv("Deployment")
-	if !isSet {
-		deployment = string(setup.Local)
+	var deployment string
+	args := os.Args
+	if len(args) == 2 {
+		deployment = args[1]
+	} else {
+		var isSet bool
+		deployment, isSet = os.LookupEnv(helpers.OSDeploymentKey)
+		if !isSet {
+			deployment = string(setup.Local)
+		}
 	}
 	config := helpers.GetConfig(deployment)
 
